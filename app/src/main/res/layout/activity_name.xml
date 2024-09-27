@@ -13,27 +13,28 @@
         android:layout_width="162dp"
         android:layout_height="36dp"
 
-        android:hint="Welcome!"
+        android:hint="@string/welcome"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttondontcallme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="DON'T CALL ME THAT"
+        android:text="@string/dontcallme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="THANK YOU"
-        app:layout_constraintStart_toEndOf="@id/button2"
-        tools:layout_editor_absoluteY="40dp" />
+        android:id="@+id/buttonthankyou"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/thankyou"
+        app:layout_constraintStart_toEndOf="@id/buttondontcallme"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

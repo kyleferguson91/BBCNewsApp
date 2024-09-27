@@ -9,33 +9,32 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="199dp"
-        android:layout_height="41dp"
-        android:text="Enter your name"
+        android:layout_width="169dp"
+        android:layout_height="39dp"
+        android:text="@string/entername"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_width="312dp"
+        android:layout_height="61dp"
 
+        android:layout_marginTop="8dp"
+        android:ems="10"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonnextmain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Next"
+        android:layout_marginTop="4dp"
+        android:text="@string/next"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

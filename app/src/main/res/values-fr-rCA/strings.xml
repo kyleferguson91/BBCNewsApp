@@ -2,4 +2,9 @@
     <string name="app_name">AndroidLab</string>
     <string name="hello_world">Bonjour le monde</string>
     <string name="button_text">Je suis un bouton!</string>
+    <string name="dontcallme">Ne m\'appelez pas comme ça</string>
+    <string name="thankyou">Merci</string>
+    <string name="welcome"> Bienvenue!</string>
+    <string name="entername">Entrez votre nom</string>
+    <string name="next">Suivante</string>
 </resources>
