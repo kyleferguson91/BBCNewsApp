@@ -1,5 +1,6 @@
 package com.example.androidlab;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 todoItem todo = new todoItem(textcontent, urgency.isChecked());
 
                 elements.add(todo);
+                text.setText("");
+                urgency.setChecked(false);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -84,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Object getItem(int i) {
-            return "This is row: " + i;
+            return elements.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
@@ -104,7 +109,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             TextView textView = newView.findViewById(R.id.listText);
-            textView.setText((getItem(position).toString()));
+            todoItem currentItem = elements.get(position);
+
+            if (currentItem.urgent)
+            {
+                textView.setBackgroundColor(Color.RED);
+                textView.setTextColor(Color.WHITE);
+            }
+
+            textView.setText(currentItem.todoText.toString());
 
             return newView;
         }
