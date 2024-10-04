@@ -1,10 +1,12 @@
 package com.example.androidlab;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         ListView myList = (ListView) findViewById(R.id.mainList);
 
+
         myListAdapter adapter = new myListAdapter();
         myList.setAdapter(adapter);
 
@@ -79,6 +83,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myList.setOnItemLongClickListener((p,b,pos,id) -> {
+            AlertDialog.Builder alterDialogBuilder = new AlertDialog.Builder(this);
+            String message = getString(R.string.rowis) + " " + pos;
+            alterDialogBuilder.setTitle(getString(R.string.deletethis)).setMessage(message);
+
+            alterDialogBuilder.setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    elements.remove(pos);
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+
+            alterDialogBuilder.setNegativeButton(getText(R.string.no), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+
+
+            alterDialogBuilder.create().show();
+            return true;
+        });
     }
 
     private class myListAdapter extends BaseAdapter {

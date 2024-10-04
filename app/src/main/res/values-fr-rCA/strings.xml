@@ -11,5 +11,8 @@
     <string name="typehere">Tapez ici</string>
     <string name="add">Ajouter</string>
     <string name="urgent">Urgente</string>
-
+    <string name="deletethis">Voulez-vous supprimer ceci?</string>
+    <string name="rowis">La ligne sélectionnée est: </string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>
