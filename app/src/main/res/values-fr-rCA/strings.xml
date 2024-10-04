@@ -7,4 +7,9 @@
     <string name="welcome"> Bienvenue!</string>
     <string name="entername">Entrez votre nom</string>
     <string name="next">Suivante</string>
+    <string name="lab4Title">CST2335 Laboratoire 4</string>
+    <string name="typehere">Tapez ici</string>
+    <string name="add">Ajouter</string>
+    <string name="urgent">Urgente</string>
+
 </resources>

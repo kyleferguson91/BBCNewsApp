@@ -5,4 +5,8 @@
     <string name="entername">Enter your name</string>
     <string name="next">Next</string>
     <string name="app_name">AndroidLab</string>
+    <string name="lab4Title">CST2335 Lab 4</string>
+    <string name="typehere">Type Here</string>
+    <string name="add">Add</string>
+    <string name="urgent">Urgent</string>
 </resources>
