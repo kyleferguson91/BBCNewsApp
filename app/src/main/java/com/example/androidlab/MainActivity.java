@@ -9,17 +9,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -43,6 +40,35 @@ public class MainActivity extends AppCompatActivity {
 
     List<todoItem> elements = new ArrayList<>();
 
+    public void printCursor(Cursor c, SQLiteDatabase db)
+    {
+        System.out.println("Database version is: "+ db.getVersion());
+        int count = 0;
+        while(c.moveToNext())
+        {
+
+            int id = c.getInt(c.getColumnIndex(SQLOpener.COL_ID));
+            String todoText = c.getString(c.getColumnIndex(SQLOpener.todoText));
+            String todoUrgency = c.getString(c.getColumnIndex(SQLOpener.todoUrgency));
+            System.out.println("ID: " + id);
+            System.out.println("Todo Text: " + todoText);
+            System.out.println("Todo Urgency: " + todoUrgency);
+
+
+        }
+
+
+       Cursor countRecords = db.rawQuery("SELECT COUNT(*) FROM " + SQLOpener.TABLE_NAME, null
+       );
+        if (countRecords.moveToFirst()) {
+            int countRecordsInt = countRecords.getInt(0);
+            System.out.println("Total records in the table: " + countRecordsInt);
+        }
+        countRecords.close();
+        int columnCount = c.getColumnCount();
+        System.out.println("The number of columns is: " + columnCount);
+
+    }
 
 
     @Override
@@ -64,8 +90,16 @@ public class MainActivity extends AppCompatActivity {
         SQLOpener dbHelper = new SQLOpener(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+
+
+
+
         // create cursor to loop through existing db values
         Cursor cursor = db.rawQuery("Select * FROM " + SQLOpener.TABLE_NAME, null);
+
+        //printout cursor;
+        printCursor(cursor, db);
+
         // if we have a truthy row
         if (cursor.moveToFirst())
         {
@@ -89,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
         // notify list changed
 
         adapter.notifyDataSetChanged();
+
+
 
         Button add = findViewById(R.id.addbutton);
 
