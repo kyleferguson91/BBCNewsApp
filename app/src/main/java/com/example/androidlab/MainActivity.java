@@ -1,6 +1,9 @@
 package com.example.androidlab;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,14 +56,39 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
         ListView myList = (ListView) findViewById(R.id.mainList);
-
-
         myListAdapter adapter = new myListAdapter();
         myList.setAdapter(adapter);
 
+// open the database
+        SQLOpener dbHelper = new SQLOpener(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // create cursor to loop through existing db values
+        Cursor cursor = db.rawQuery("Select * FROM " + SQLOpener.TABLE_NAME, null);
+        // if we have a truthy row
+        if (cursor.moveToFirst())
+        {
+            do {
+                //get the todo and urgency text
+                String todoText = cursor.getString(cursor.getColumnIndex(SQLOpener.todoText));
+                String urgencyText = cursor.getString(cursor.getColumnIndex(SQLOpener.todoUrgency));
+                // convert our urgency to a boolean
+                boolean isUrgent = urgencyText.equals("Urgent");
+
+                //add to our list!
+                todoItem todo = new todoItem(todoText, isUrgent);
+                elements.add(todo);
+
+            }
+            while (cursor.moveToNext());
+        }
+        // close the cursor
+        cursor.close();
+
+        // notify list changed
+
+        adapter.notifyDataSetChanged();
 
         Button add = findViewById(R.id.addbutton);
 
@@ -75,10 +103,22 @@ public class MainActivity extends AppCompatActivity {
                 //pass to new list item
                 //if switch is checked, urgency is true, if not checked, then not true.
                 todoItem todo = new todoItem(textcontent, urgency.isChecked());
+                String urgencytext;
+                if (urgency.isChecked()) urgencytext = "Urgent";
+                else urgencytext = "Not Urgent";
+
+                // add to database on submission
+                ContentValues cValues = new ContentValues();
+
+                cValues.put(SQLOpener.todoText, textcontent);
+                cValues.put(SQLOpener.todoUrgency, urgencytext);
+                long id = db.insert(SQLOpener.TABLE_NAME, null, cValues);
 
                 elements.add(todo);
                 text.setText("");
                 urgency.setChecked(false);
+
+
                 adapter.notifyDataSetChanged();
             }
         });
@@ -91,7 +131,15 @@ public class MainActivity extends AppCompatActivity {
             alterDialogBuilder.setPositiveButton(getText(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    // we also what to remove this value from the database
+
+                    db.execSQL("DELETE FROM " + SQLOpener.TABLE_NAME + " WHERE " + SQLOpener.todoText + " = '" + elements.get(pos).todoText + "'");
+
                     elements.remove(pos);
+
+
+
                     adapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }
