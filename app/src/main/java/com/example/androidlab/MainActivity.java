@@ -48,204 +48,132 @@ public class MainActivity extends AppCompatActivity {
 
         String urlString = "https://cataas.com/cat?json=true";
 
-        new CatImages().execute(urlString);
+
+            new CatImages().execute(urlString);
+
     }
 
 
-    public class CatImages extends AsyncTask <String, Integer, Void>
-    {
+    public class CatImages extends AsyncTask<String, Integer, Void> {
         Bitmap catPicture;
-        ProgressBar progressBar = findViewById(R.id.progressBar);
-        ImageView bgImage = findViewById(R.id.imageView);
+        ProgressBar progressBar;
+        ImageView bgImage;
+        private Boolean running = true;
 
         @Override
         protected void onPreExecute() {
+            super.onPreExecute();
+             progressBar = findViewById(R.id.progressBar);
+             bgImage = findViewById(R.id.imageView);
             System.out.println("pre execute");
+
             progressBar.setVisibility(View.VISIBLE);
-        }
+            }
 
         protected Void doInBackground(String... args) {
             String caturl = args[0];
 
+            while (running) {
+                try {
+                    progressBar = findViewById(R.id.progressBar);
+                    progressBar.setVisibility(View.VISIBLE);
+                    // Fetch cat info
+                    URL url = new URL(caturl);
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
 
-            try {
-
-
-
-
-                URL url = new URL(caturl);
-
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-               // urlConnection.connect();
-
-
-
-                System.out.println("Connected " + urlConnection);
-
-                // now we have a connection we need to parse the data
-
-                InputStream response = urlConnection.getInputStream();
-
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null)
-                {
-                    sb.append(line + "\n");
-                }
-
-                String result = sb.toString();
-
-                System.out.println(result);
-
-
-                // now extract the data we need from the url
-
-                JSONObject catinfo = new JSONObject(result);
-
-                // get attributes
-                String id = catinfo.getString("_id");
-                String imageurl = "https://cataas.com/cat/" + id;
-                System.out.println(id + " " + imageurl);
-
-
-                // now we have the data and must check if this file exists on our decvice
-
-                   String filename = id + ".jpg";
-                 //   String filename = "Mbq6mCCcZKN862f2";
-                //FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-
-                File catImageFile = new File(filename);
-
-                if (catImageFile.exists())
-                {
-                    System.out.println("File exists, setting background");
-                    // file exists so set the background to this
-
-
-                     catPicture = BitmapFactory.decodeFile(catImageFile.getAbsolutePath());
-
-                    bgImage.setImageBitmap(catPicture);
-
-
-                }
-                else
-                {
-                    System.out.println("File " + filename + " does not exist, downloading!");
-                    // file does not exist, download it and process
-                    URL downloadURL = new URL(imageurl);
-                    HttpURLConnection connection = (HttpURLConnection) downloadURL.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-
-                    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                        System.out.println("Error fetching cat info: " + connection.getResponseCode());
-                        return null;
-                    }
-                    InputStream input = connection.getInputStream();
-
-                    if (input == null)
-                    {
-                        System.out.println("download image input stream is null!");
+                    InputStream response = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line).append("\n");
                     }
 
-                     //save image
-                    //create cat images folder
-                    File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "CatImages");
-                    if (!directory.exists())
-                    {
-                        directory.mkdir();
-                    }
+                    String result = sb.toString();
+                    JSONObject catinfo = new JSONObject(result);
+                    String id = catinfo.getString("_id");
+                    String imageurl = "https://cataas.com/cat/" + id;
 
-                    // create a file
-                    File imageFile = new File(directory, filename + ".jpg");
+                    // Check if the image exists
+                    String filename = id + ".jpg";
+                    File catImageFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/CatImages", filename);
 
+                    if (catImageFile.exists()) {
+                        System.out.println("File exists, setting background");
+                        catPicture = BitmapFactory.decodeFile(catImageFile.getAbsolutePath());
+                    } else {
+                        System.out.println("File " + filename + " does not exist, downloading!");
+                        // Download the image
+                        URL downloadURL = new URL(imageurl);
+                        HttpURLConnection connection = (HttpURLConnection) downloadURL.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();
 
-                    catPicture = BitmapFactory.decodeStream(input);
-                    if (catPicture == null) {
-                        System.out.println("Failed to decode bitmap.");
-
-                    }
-
-
-                    try (FileOutputStream outputStream = new FileOutputStream(imageFile)) {
-                        // Get the bitmap and compress it
-
-                        if (catPicture == null)
-                        {
-                            System.out.println("catpic is null");
+                        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                            System.out.println("Error fetching cat info: " + connection.getResponseCode());
+                            return null;
                         }
+                        InputStream input = connection.getInputStream();
+                        catPicture = BitmapFactory.decodeStream(input);
 
+                        // Save image to device
+                        if (catPicture != null) {
+                            // Create directory if it doesn't exist
+                            File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "CatImages");
+                            if (!directory.exists()) {
+                                directory.mkdir();
+                            }
 
-                       // catPicture.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // Save as JPEG
-                       // outputStream.flush(); // Flush the output stream
-                        System.out.println("Image saved to " + imageFile.getAbsolutePath());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("IO Exception while saving image!");
-                    }
-
-                    for (int i = 0; i < 200; i++) {
-                        try {
-
-                            onProgressUpdate(i);
-                            Thread.sleep(30);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            // Create the file
+                            File imageFile = new File(directory, filename);
+                            try (FileOutputStream outputStream = new FileOutputStream(imageFile)) {
+                                catPicture.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                System.out.println("Image saved to " + imageFile.getAbsolutePath());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                System.out.println("IO Exception while saving image!");
+                            }
                         }
                     }
 
+                    // Update progress bar and display the image
+                    for (int i = 0; i <= 100; i++) {
+                        onProgressUpdate(i);
+                        Thread.sleep(30);
+                    }
 
-                    return null;
+                    // Wait for 5 seconds before fetching another image
+                    System.out.println("waiting here");
+                    Thread.sleep(5000);
+
+                } catch (JSONException e) {
+                    System.out.println("JSON error!");
+                } catch (MalformedURLException e) {
+                    System.out.println("Malformed URL! " + e.getMessage());
+                } catch (IOException e) {
+                    System.out.println("IO Exception");
+                } catch (Exception e) {
+                    System.out.println("General Exception! " + e.getMessage());
                 }
-
             }
-            catch (JSONException e)
-            {
-                System.out.println("JSON error!");
-            }
-            catch (MalformedURLException e)
-            {
-                System.out.println("Malformed URL! " + e.getMessage());
-            }
-            catch (IOException e)
-            {
-                System.out.println("Io Excelption");
-            }
-            catch (Exception e)
-            {
-                System.out.println("General Exception!");
-            }
-
-
-
-
             return null;
         }
 
-
         protected void onProgressUpdate(Integer i) {
-                System.out.println("publishing progress onprogupdate");
-                if (i >= 99)
-                {
-                    System.out.println("Setting Image!");
-                    ImageView bgImage = findViewById(R.id.imageView);
-                    bgImage.setImageBitmap(catPicture);
-                    progressBar.setVisibility(View.GONE);
-                }
-                else {
-                    progressBar.setProgress(i);
-                }
-        }
 
+            System.out.println("publishing progress on prog update");
+            if (i >= 99 && catPicture != null ) {
+                bgImage.setImageBitmap(catPicture);
+
+            } else {
+                progressBar.setProgress(i);
+            }
+        }
 
         protected void onPostExecute(Void result) {
-
-
+            progressBar.setVisibility(View.GONE);
         }
-
     }
 
 
