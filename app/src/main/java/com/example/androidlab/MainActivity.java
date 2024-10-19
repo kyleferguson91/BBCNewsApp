@@ -27,6 +27,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +68,42 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
+
+
                 System.out.println("Connected " + urlConnection);
+
+                // now we have a connection we need to parse the data
+
+                InputStream response = urlConnection.getInputStream();
+
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    sb.append(line + "\n");
+                }
+
+                String result = sb.toString();
+
+                System.out.println(result);
+
+
+                // now extract the data we need from the url
+
+                JSONObject catinfo = new JSONObject(result);
+
+                // get attributes
+                String id = catinfo.getString("_id");
+                String imageurl = "https://cataas.com/cat/" + id;
+                System.out.println(id + " " + imageurl);
+
+
+            }
+            catch (JSONException e)
+            {
+                System.out.println("JSON error!");
             }
             catch (MalformedURLException e)
             {
@@ -83,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            // now we have a connection we need to parse the data
+
 
             return null;
         }
