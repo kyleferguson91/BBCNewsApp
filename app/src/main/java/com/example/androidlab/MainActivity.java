@@ -1,5 +1,6 @@
 package com.example.androidlab;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
+               // urlConnection.connect();
 
 
 
@@ -100,6 +101,94 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(id + " " + imageurl);
 
 
+                // now we have the data and must check if this file exists on our decvice
+
+                   String filename = id + ".jpg";
+                 //   String filename = "Mbq6mCCcZKN862f2";
+                //FileOutputStream outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+
+                File catImageFile = new File(filename);
+
+                if (catImageFile.exists())
+                {
+                    System.out.println("File exists, setting background");
+                    // file exists so set the background to this
+
+
+                     catPicture = BitmapFactory.decodeFile(catImageFile.getAbsolutePath());
+                    ImageView bgImage = findViewById(R.id.imageView);
+                    bgImage.setImageBitmap(catPicture);
+
+
+                }
+                else
+                {
+                    System.out.println("File " + filename + " does not exist, downloading!");
+                    // file does not exist, download it and process
+                    URL downloadURL = new URL(imageurl);
+                    HttpURLConnection connection = (HttpURLConnection) downloadURL.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+
+                    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                        System.out.println("Error fetching cat info: " + connection.getResponseCode());
+                        return null;
+                    }
+                    InputStream input = connection.getInputStream();
+
+                    if (input == null)
+                    {
+                        System.out.println("download image input stream is null!");
+                    }
+
+                     //save image
+                    //create cat images folder
+                    File directory = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "CatImages");
+                    if (!directory.exists())
+                    {
+                        directory.mkdir();
+                    }
+
+                    // create a file
+                    File imageFile = new File(directory, filename + ".jpg");
+
+
+                    catPicture = BitmapFactory.decodeStream(input);
+                    if (catPicture == null) {
+                        System.out.println("Failed to decode bitmap.");
+
+                    }
+
+
+                    try (FileOutputStream outputStream = new FileOutputStream(imageFile)) {
+                        // Get the bitmap and compress it
+
+                        if (catPicture == null)
+                        {
+                            System.out.println("catpic is null");
+                        }
+
+
+                       // catPicture.compress(Bitmap.CompressFormat.JPEG, 100, outputStream); // Save as JPEG
+                       // outputStream.flush(); // Flush the output stream
+                        System.out.println("Image saved to " + imageFile.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("IO Exception while saving image!");
+                    }
+
+                    for (int i = 0; i < 100; i++) {
+                        try {
+                            publishProgress(i);
+                            Thread.sleep(30);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    return null;
+                }
+
             }
             catch (JSONException e)
             {
@@ -111,11 +200,11 @@ public class MainActivity extends AppCompatActivity {
             }
             catch (IOException e)
             {
-                System.out.println("Malformed URL!");
+                System.out.println("Io Excelption");
             }
             catch (Exception e)
             {
-                System.out.println("Malformed URL!");
+                System.out.println("General Exception!");
             }
 
 
@@ -125,13 +214,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        protected void onProgressUpdate(Integer ...args) {
-           // super.onProgressUpdate(args);
+        protected void onProgressUpdate(Integer i) {
+           super.onProgressUpdate(i);
         }
 
 
-        protected void onPostExecute(String fromDoInBackground) {
 
+
+        protected void onPostExecute(Void result) {
+            System.out.println("Setting Image!");
+            ImageView bgImage = findViewById(R.id.imageView);
+            bgImage.setImageBitmap(catPicture);
         }
 
     }
