@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Parameter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -40,8 +41,64 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
+        String urlString = "https://cataas.com/cat?json=true";
+
+        new CatImages().execute(urlString);
     }
 
+
+    public class CatImages extends AsyncTask <String, Void, Void>
+    {
+        Bitmap catPicture;
+
+        protected Void doInBackground(String... args) {
+            String caturl = args[0];
+
+
+            try {
+
+
+
+
+                URL url = new URL(caturl);
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                System.out.println("Connected " + urlConnection);
+            }
+            catch (MalformedURLException e)
+            {
+                System.out.println("Malformed URL! " + e.getMessage());
+            }
+            catch (IOException e)
+            {
+                System.out.println("Malformed URL!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("Malformed URL!");
+            }
+
+
+            // now we have a connection we need to parse the data
+
+            return null;
+        }
+
+
+        protected void onProgressUpdate(Integer ...args) {
+           // super.onProgressUpdate(args);
+        }
+
+
+        protected void onPostExecute(String fromDoInBackground) {
+
+        }
+
+    }
 
 
 
