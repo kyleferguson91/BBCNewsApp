@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,9 +52,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class CatImages extends AsyncTask <String, Void, Void>
+    public class CatImages extends AsyncTask <String, Integer, Void>
     {
         Bitmap catPicture;
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        ImageView bgImage = findViewById(R.id.imageView);
+
+        @Override
+        protected void onPreExecute() {
+            System.out.println("pre execute");
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         protected Void doInBackground(String... args) {
             String caturl = args[0];
@@ -116,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                      catPicture = BitmapFactory.decodeFile(catImageFile.getAbsolutePath());
-                    ImageView bgImage = findViewById(R.id.imageView);
+
                     bgImage.setImageBitmap(catPicture);
 
 
@@ -177,14 +187,16 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("IO Exception while saving image!");
                     }
 
-                    for (int i = 0; i < 100; i++) {
+                    for (int i = 0; i < 200; i++) {
                         try {
-                            publishProgress(i);
+
+                            onProgressUpdate(i);
                             Thread.sleep(30);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+
 
                     return null;
                 }
@@ -215,16 +227,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         protected void onProgressUpdate(Integer i) {
-           super.onProgressUpdate(i);
+                System.out.println("publishing progress onprogupdate");
+                if (i >= 99)
+                {
+                    System.out.println("Setting Image!");
+                    ImageView bgImage = findViewById(R.id.imageView);
+                    bgImage.setImageBitmap(catPicture);
+                    progressBar.setVisibility(View.GONE);
+                }
+                else {
+                    progressBar.setProgress(i);
+                }
         }
 
 
-
-
         protected void onPostExecute(Void result) {
-            System.out.println("Setting Image!");
-            ImageView bgImage = findViewById(R.id.imageView);
-            bgImage.setImageBitmap(catPicture);
+
+
         }
 
     }
