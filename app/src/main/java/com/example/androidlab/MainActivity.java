@@ -1,6 +1,7 @@
 package com.example.androidlab;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -229,6 +232,47 @@ public class MainActivity extends AppCompatActivity {
             swAdapter adapter = new swAdapter(MainActivity.this, characterlist);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+
+
+            listView.setOnItemClickListener((adapterView, view, position, id) -> {
+                swCharacter selectedCharacter = characterlist.get(position);
+
+                // Check for phone/tablet
+                View frameLayout = findViewById(R.id.framelayout);
+
+                if (frameLayout == null) {
+                    // Phone
+
+                    System.out.println("clicked");
+                    Intent intent = new Intent(MainActivity.this, EmptyActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("name", selectedCharacter.getName());
+                    extras.putString("height", selectedCharacter.getHeight());
+                    extras.putString("mass", selectedCharacter.getMass());
+                    intent.putExtras(extras);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                    //    startActivity(intent);
+                    } else {
+                        System.out.println("No Activity found");
+                    }
+
+                } else {
+                    // Tablet:
+                    DetailsFragment detailsFragment = new DetailsFragment();
+
+                    Bundle args = new Bundle();
+                    args.putString("name", selectedCharacter.getName());
+                    args.putString("height", selectedCharacter.getHeight());
+                    args.putString("mass", selectedCharacter.getMass());
+                    detailsFragment.setArguments(args);
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.framelayout, detailsFragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
         }
 
         class swAdapter extends BaseAdapter{
