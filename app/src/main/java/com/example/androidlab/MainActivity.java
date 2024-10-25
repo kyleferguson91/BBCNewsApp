@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -17,11 +22,41 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
+    // character list
+    public static List<swCharacter> characterlist = new ArrayList();
+    class swCharacter {
+        public String name;
+        public String height;
+        public String mass;
 
+
+        public swCharacter(String name, String height, String mass) {
+            this.name = name;
+            this.height = height;
+            this.mass = mass;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getHeight() {
+            return height;
+        }
+
+        public  String getMass()
+        {
+            return mass;
+        }
+
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +70,20 @@ public class MainActivity extends AppCompatActivity {
 
         swAsync swtask = new swAsync();
         swtask.execute();
+
+
+
+
+
+        // we have the base adapter now we want to populate the list view
+        // class to represent each item
+
+
+
     }
 
 
-    private class swAsync extends AsyncTask<Void, Integer, String>
-    {
+    private class swAsync extends AsyncTask<Void, Integer, String> {
 
         @Override
         protected void onPreExecute() {
@@ -51,15 +95,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
 
-
+// I had to add this as everytime I tried to connect I kept facing SSL errors, could not use http as site redirects to https
             try {
                 TrustManager[] trustAllCerts = new TrustManager[]{
                         new X509TrustManager() {
                             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                                 return null;
                             }
+
                             public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
                             }
+
                             public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
                             }
                         }
@@ -77,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             HttpsURLConnection connection = null;
 
-            try{
+            try {
                 System.out.println("attempt connection");
                 URL url = new URL(urlstring);
 
@@ -92,8 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println(response + " response is this<");
 
-                if (response == HttpURLConnection.HTTP_OK)
-                {
+                if (response == HttpURLConnection.HTTP_OK) {
 
                     System.out.println("connection successful");
 
@@ -105,31 +150,69 @@ public class MainActivity extends AppCompatActivity {
                         result.append(line);
                     }
                     reader.close();
-                }
-                else {
+                } else {
                     System.out.println("connection error!");
                 }
-            }
-            catch(Exception e)
-            {
-            System.out.println("there was an error!" + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("there was an error!" + e.getMessage());
             }
             System.out.println("string reusult here");
             System.out.println(result);
-            return "";
-        }
+
+            // now to get json out of the string
+
+            try {
+                JSONObject results = new JSONObject(result.toString());
+
+                JSONArray resultsArray = results.getJSONArray("results");
 
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            System.out.println("on progress update");
-            super.onProgressUpdate(values);
+                for (int i = 0; i < resultsArray.length(); i++) {
+                    JSONObject character = resultsArray.getJSONObject(i);
+                    String name = character.getString("name");
+                    String height = character.getString("height");
+                    String mass = character.getString("mass");
+
+                  //  System.out.println("Name: " + name);
+                   // System.out.println("Height: " + height);
+                   // System.out.println("Mass: " + mass);
+
+
+                    // we want to create a character object with each item and add to list
+                    swCharacter newchar = new swCharacter(name, height, mass);
+
+                    // now we have new object, add it to our master character list
+                    characterlist.add(newchar);
+
+
+
+                }
+                return "";
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+
+
         }
 
         @Override
         protected void onPostExecute(String s) {
-            System.out.println("post execute");
             super.onPostExecute(s);
+
+            System.out.println("on post execute");
+
+
+            // iterate our list and make sure all the things are in it
+
+            for (swCharacter item : characterlist)
+            {
+                System.out.println(item.getName());
+                System.out.println(item.getMass());
+                System.out.println(item.getHeight());
+            }
+
         }
-    }
-}
+    }}
