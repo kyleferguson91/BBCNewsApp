@@ -1,7 +1,14 @@
 package com.example.androidlab;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -214,5 +221,53 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(item.getHeight());
             }
 
+
+            System.out.println("notify list changed");
+
+
+            ListView listView = findViewById(R.id.list);
+            swAdapter adapter = new swAdapter(MainActivity.this, characterlist);
+            listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
+
+        class swAdapter extends BaseAdapter{
+            private Context context;
+            private List<swCharacter> characters;
+            @Override
+            public int getCount() {
+               return characters.size();
+            }
+
+            public  swAdapter(Context context, List<swCharacter> characterList)
+            {
+                this.context = context;
+                this.characters = characterList;
+            }
+            @Override
+            public Object getItem(int i) {
+               return characters.get(i);
+            }
+
+            @Override
+            public long getItemId(int i) {
+                return i;
+            }
+
+            @Override
+            public View getView(int i, View view, ViewGroup viewGroup) {
+
+                if (view == null) {
+                    view = LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);
+                }
+
+                TextView nameTextView = view.findViewById(R.id.textName);
+                swCharacter character = characters.get(i);
+                nameTextView.setText(character.getName());
+
+                return view;
+            }
+
+        }
+
     }}
