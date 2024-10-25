@@ -20,9 +20,9 @@ public class DetailsFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if (bundle != null) {
-            // Populate the TextViews with the values from the Bundle
+            // populate the TextViews with the values
             ((TextView) view.findViewById(R.id.textName)).setText(bundle.getString("name"));
-            ((TextView) view.findViewById(R.id.textAge)).setText(String.valueOf(bundle.getInt("age")));
+            ((TextView) view.findViewById(R.id.textHeight)).setText(String.valueOf(bundle.getInt("age")));
             ((TextView) view.findViewById(R.id.textMass)).setText(bundle.getString("gap"));
         }
 

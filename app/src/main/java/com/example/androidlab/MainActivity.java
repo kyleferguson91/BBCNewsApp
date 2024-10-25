@@ -81,12 +81,52 @@ public class MainActivity extends AppCompatActivity {
         swAsync swtask = new swAsync();
         swtask.execute();
 
+                ListView listView = findViewById(R.id.list);
+
+        listView.setOnItemClickListener((adapterView, view, position, id) -> {
+            swCharacter selectedCharacter = characterlist.get(position);
+
+            // Check for phone/tablet
+            View frameLayout = findViewById(R.id.framelayout);
+
+            if (frameLayout == null) {
+                // Phone
+
+                System.out.println("clicked");
+                Intent intent = new Intent(MainActivity.this, EmptyActivity.class);
+
+                Bundle extras = new Bundle();
+                extras.putString("name", selectedCharacter.getName());
+                extras.putString("height", selectedCharacter.getHeight());
+                extras.putString("mass", selectedCharacter.getMass());
+                intent.putExtras(extras);
 
 
+               try {
+                   startActivity(intent);
+               }
+               catch (Exception e)
+               {
+                   System.out.println(e.getMessage());
+               }
+            } else {
+                // Tablet:
+                DetailsFragment detailsFragment = new DetailsFragment();
 
+                ListView listVieww = findViewById(R.id.list);
+                Bundle extras = new Bundle();
+                extras.putString("name", selectedCharacter.getName());
+                extras.putString("height", selectedCharacter.getHeight());
+                extras.putString("mass", selectedCharacter.getMass());
+                detailsFragment.setArguments(extras);
 
-        // we have the base adapter now we want to populate the list view
-        // class to represent each item
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.framelayout, detailsFragment);
+                fragmentTransaction.commit();
+            }
+        });
+
 
 
 
@@ -234,44 +274,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
 
-            listView.setOnItemClickListener((adapterView, view, position, id) -> {
-                swCharacter selectedCharacter = characterlist.get(position);
 
-                // Check for phone/tablet
-                View frameLayout = findViewById(R.id.framelayout);
-
-                if (frameLayout == null) {
-                    // Phone
-
-                    System.out.println("clicked");
-                    Intent intent = new Intent(MainActivity.this, EmptyActivity.class);
-                    Bundle extras = new Bundle();
-                    extras.putString("name", selectedCharacter.getName());
-                    extras.putString("height", selectedCharacter.getHeight());
-                    extras.putString("mass", selectedCharacter.getMass());
-                    intent.putExtras(extras);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                    //    startActivity(intent);
-                    } else {
-                        System.out.println("No Activity found");
-                    }
-
-                } else {
-                    // Tablet:
-                    DetailsFragment detailsFragment = new DetailsFragment();
-
-                    Bundle args = new Bundle();
-                    args.putString("name", selectedCharacter.getName());
-                    args.putString("height", selectedCharacter.getHeight());
-                    args.putString("mass", selectedCharacter.getMass());
-                    detailsFragment.setArguments(args);
-
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.framelayout, detailsFragment);
-                    fragmentTransaction.commit();
-                }
-            });
 
         }
 
