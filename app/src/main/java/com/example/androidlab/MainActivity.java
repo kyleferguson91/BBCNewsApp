@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the logo for the toolbar/title of toolbar
         toolbar.setLogo(R.drawable.bbclogo);
-        Objects.requireNonNull(getSupportActionBar()).setTitle(" News Feed");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.newsfeed);
 
 
 

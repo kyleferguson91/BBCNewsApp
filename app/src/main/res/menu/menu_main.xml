@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/newsfeed"
-        android:title="News Feed"
+        android:title="@string/newsfeed"
         android:icon="@drawable/home" />
     <item
         android:id="@+id/settings"
-        android:title="Settings"
+        android:title="@string/settings"
         android:icon="@drawable/settings" />
     <item
         android:id="@+id/profile"
-        android:title="Profile"
+        android:title="@string/profile"
         android:icon="@drawable/user" />
     <item
         android:id="@+id/favs"
-        android:title="Favorites"
+        android:title="@string/favs"
          />
 </menu>

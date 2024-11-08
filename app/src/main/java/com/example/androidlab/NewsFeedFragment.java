@@ -84,6 +84,9 @@ public class NewsFeedFragment extends Fragment {
         junkData.add("Item 3");
         junkData.add("Item 4");
         junkData.add("Item 5");
+        junkData.add("Item 6");
+        junkData.add("Item 7");
+        junkData.add("Item 8");
 
         // Create an ArrayAdapter to bind the data to the ListView
         adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.itemTitle, junkData);

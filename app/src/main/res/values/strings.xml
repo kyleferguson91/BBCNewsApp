@@ -18,5 +18,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="newsfeed">News Feed</string>
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+    <string name="favs">Favorites</string>
 
 </resources>
