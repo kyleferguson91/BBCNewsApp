@@ -21,12 +21,19 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
+/**
+ * This is the main activity for the app that displays the home screen.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
-    //create drawer layout variables
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle toggle;
 
+    /**
+     * Called when the activity is first created.
+     * Sets up the toolbar, and applies system bar insets to the main view.
+     *
+     * @param savedInstanceState A bundle containing the saved instance state of the activity, or null if there is no state.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //inflate the toolbar
+
+        // Initialize and set up the toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setLogo(R.drawable.bbclogo); // Use your image here (e.g., logo.png)
+
+        // Set the logo for the toolbar/title of toolbar
+        toolbar.setLogo(R.drawable.bbclogo);
         Objects.requireNonNull(getSupportActionBar()).setTitle(" News Feed");
 
 
@@ -56,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+    /**
+     * Creates the options menu for the activity and inflates the menu layout.
+     *
+     * @param menu The menu to populate with items.
+     * @return True if the menu was created successfully, false otherwise.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -63,13 +80,25 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Handles selection of menu items from the options menu.
+     * Based on the selected item, the corresponding fragment is loaded into the fragment container.
+     *
+     * @param item The selected menu item.
+     * @return True if the item was handled, false otherwise.
+     */
     @Override
     public boolean onOptionsItemSelected( MenuItem item) {
+        // Get the title of the selected menu item, trim to be safe
         String itemTitle = item.getTitle().toString();
+        // Log the selected item title for debugging purposes
         Log.d("MainActivity", "Selected item: " + itemTitle);
+
+        // Set the action bar title to the selected menu item's title
         getSupportActionBar().setTitle(" " + itemTitle);
 
      //
+        // Load the corresponding fragment based on the selected menu item
         if(itemTitle.equals("News Feed".trim()))
         {
             System.out.println("load news feed frag");
@@ -95,11 +124,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Helper method to handle fragment transactions
+    /**
+     * Helper method to load a fragment into the fragment container.
+     * Replaces any existing fragment with the new fragment and adds the transaction to the back stack.
+     *
+     * @param fragment The fragment to be loaded into the container.
+     */
     private void loadFragment(Fragment fragment) {
+        // Begin a new fragment transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Replace the fragment in the fragment container with the new fragment
         transaction.replace(R.id.fragment_container, fragment);
+        // Add the transaction to the back stack to allow navigation back to the previous fragment
         transaction.addToBackStack(null);
+        // Commit the transaction to apply the changes
         transaction.commit();
     }
 }
