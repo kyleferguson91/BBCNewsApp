@@ -1,32 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <TextView
         android:id="@+id/itemTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Item"
-        android:textSize="18sp"
         android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Title"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <ImageView
-        android:id="@+id/itemImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/user"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-
-        app:layout_constraintStart_toStartOf="parent"
+    <TextView
+        android:id="@+id/descriptionexpanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemTitle"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/dateexpanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/linkexpanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:text="Link"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

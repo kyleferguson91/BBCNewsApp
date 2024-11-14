@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -79,6 +80,9 @@ public class NewsFeedFragment extends Fragment {
         listView = rootView.findViewById(R.id.listView);
 
 
+        // we will parse xml data here to add it to the list!
+
+
         junkData.add("Item 1");
         junkData.add("Item 2");
         junkData.add("Item 3");
@@ -96,13 +100,25 @@ public class NewsFeedFragment extends Fragment {
 
         // Set up an item click listener
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            // Retrieve the clicked item
-            String clickedItem = junkData.get(position);
 
 
-            // Display a toast message
-            Toast.makeText(getActivity(), "Clicked: " + clickedItem, Toast.LENGTH_SHORT).show();
 
+            TextView date = view.findViewById(R.id.dateexpanded);
+            TextView desc = view.findViewById(R.id.descriptionexpanded);
+            TextView link = view.findViewById(R.id.linkexpanded);
+
+
+            if (date.getVisibility() == View.GONE && desc.getVisibility() == View.GONE && link.getVisibility() == View.GONE) {
+                // Show the hidden view (expand the item)
+                date.setVisibility(View.VISIBLE);
+                desc.setVisibility(View.VISIBLE);
+                link.setVisibility(View.VISIBLE);
+            } else {
+                // Hide the view (collapse the item)
+                date.setVisibility(View.GONE);
+                desc.setVisibility(View.GONE);
+                link.setVisibility(View.GONE);
+            }
 
         });
 
