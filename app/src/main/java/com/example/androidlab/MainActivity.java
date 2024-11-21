@@ -1,5 +1,8 @@
 package com.example.androidlab;
 
+import static android.app.PendingIntent.getActivity;
+
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,6 +11,7 @@ import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -101,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Selected item: " + itemTitle);
 
         // Set the action bar title to the selected menu item's title
-        getSupportActionBar().setTitle(" " + itemTitle);
+
+        if (!itemTitle.equals("Help".trim())) {
+           //do not change the title to help, leave at initial page
+            getSupportActionBar().setTitle(" " + itemTitle);
+        }
 
      //
         // Load the corresponding fragment based on the selected menu item
@@ -124,6 +132,63 @@ public class MainActivity extends AppCompatActivity {
         {
             System.out.println("load favs frag");
             loadFragment(new favsFragment());
+        }
+        if(itemTitle.equals("Help".trim()))
+        {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+
+
+
+
+            System.out.println("load help alert");
+
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+            if (fragment != null && fragment instanceof settings) {
+                // The SettingsFragment is currently loaded
+                           builder.setMessage("This is the settings panel, you can change your username in here.");
+                   
+                System.out.println("SettingsFragment is loaded");
+            }
+            if ((fragment != null) && fragment instanceof NewsFeedFragment) {
+
+            System.out.println("newsfeed is loaded");
+                builder.setMessage("This is the newsfeed, scroll around for some content, click the articles for more details");
+        }
+            if ((fragment != null) && fragment instanceof profileFragment) {
+
+                builder.setMessage("This is your profile, for now you can view your username");
+                System.out.println("profile is loaded");
+            }
+
+            if ((fragment != null) && fragment instanceof favsFragment) {
+
+                System.out.println("favsfrag is loaded");
+                builder.setMessage("This is the favorites, view your favorites");
+            }
+
+
+            builder.setTitle("Help!") // Set the title
+                    .setCancelable(false); // Disable closing dialog by tapping outside
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // ok button
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // cancel button
+                        }
+                    });
+
+            // Create the AlertDialog object and show it
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+
+
         }
 
 

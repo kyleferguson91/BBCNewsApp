@@ -40,7 +40,7 @@
         android:layout_width="378dp"
         android:layout_height="346dp"
         android:layout_marginTop="112dp"
-        android:text="help"
+        android:text="Use the set/change username to change your current username, or set one up!"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernametextsettingspage"
         android:visibility="gone"/>

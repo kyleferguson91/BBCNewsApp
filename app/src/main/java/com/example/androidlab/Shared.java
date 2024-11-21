@@ -19,7 +19,12 @@ public class Shared {
 
     public void storeData(String username) {
         // Storing data in SharedPreferences
+        if (username.equals(""))
+        {
+            username="Username cannot be blank, go to settings and change";
+        }
         editor.putString("username", username);
+
         editor.apply();
     }
 

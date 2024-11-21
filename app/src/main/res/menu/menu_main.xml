@@ -19,4 +19,8 @@
         android:id="@+id/favs"
         android:title="@string/favs"
          />
+    <item
+        android:id="@+id/help"
+        android:title="Help"
+        />
 </menu>
