@@ -1,18 +1,31 @@
 package com.example.androidlab;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,8 +80,13 @@ public class NewsFeedFragment extends Fragment {
 
 
     }
-    // Create a list of junk data
-    ArrayList<String> junkData = new ArrayList<>();
+
+    // Create a list of news data
+
+    ArrayList<String> newsData = new ArrayList<>();
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,19 +99,20 @@ public class NewsFeedFragment extends Fragment {
 
 
         // we will parse xml data here to add it to the list!
+        String url = "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml";
+
+        System.out.println("News fragment calling fetchRSSFeed");
+
+        new FetchRSSFeedTask().execute("http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml");
+
+        System.out.println("rss feed fetched, news frag adding to display");
 
 
-        junkData.add("Item 1");
-        junkData.add("Item 2");
-        junkData.add("Item 3");
-        junkData.add("Item 4");
-        junkData.add("Item 5");
-        junkData.add("Item 6");
-        junkData.add("Item 7");
-        junkData.add("Item 8");
+
+
 
         // Create an ArrayAdapter to bind the data to the ListView
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.itemTitle, junkData);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item, R.id.itemTitle, newsData);
 
         // Set the adapter on the ListView
         listView.setAdapter(adapter);
@@ -101,11 +120,24 @@ public class NewsFeedFragment extends Fragment {
         // Set up an item click listener
         listView.setOnItemClickListener((parent, view, position, id) -> {
 
+            //upon clicking, lets unexpand all of them!
+
+            System.out.println("called on click list listener");
 
 
             TextView date = view.findViewById(R.id.dateexpanded);
+            date.setText("Date: "  + RSSItem.items.get(position).getDate());
             TextView desc = view.findViewById(R.id.descriptionexpanded);
+            desc.setText(RSSItem.items.get(position).getDescription());
             TextView link = view.findViewById(R.id.linkexpanded);
+            String text = "Click <a href="+RSSItem.items.get(position).getLink()+">here</a> to visit the website.";
+            link.setText(Html.fromHtml(text));
+            link.setOnClickListener(v -> {
+                // Manually open the link
+                String articleurl = RSSItem.items.get(position).getLink();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleurl));
+                startActivity(intent);
+            });
 
 
             if (date.getVisibility() == View.GONE && desc.getVisibility() == View.GONE && link.getVisibility() == View.GONE) {
@@ -125,4 +157,62 @@ public class NewsFeedFragment extends Fragment {
         return rootView;
 
     }
+
+    public void updateListWithRSSFeed(List<RSSItem> newsdata) {
+        // parse the RSS content and add items to the list
+
+
+        for (RSSItem item : newsdata) {
+            System.out.println("Printing data after fetch");
+            newsData.add(item.getTitle());
+            System.out.println(item.getTitle());
+        }
+        System.out.println("adapter " + adapter);
+
+        // Notify the adapter that the data has changed
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();  // Refresh the ListView
+        }
+    }
+
+
+    public class FetchRSSFeedTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                // fetch the RSS feed
+                Document doc = Jsoup.connect(params[0]).get();
+
+                //parse rSS
+                Elements items = doc.select("item");
+
+                // Loop to get info
+                for (org.jsoup.nodes.Element item : items) {
+                    String title = item.select("title").text();
+                    String date = item.select("pubDate").text();
+                    String link = item.select("link").text();
+                    String description = item.select("description").text();
+
+                    RSSItem article = new RSSItem(title, date, description, link);
+                    RSSItem.items.add(article);
+
+
+                    Log.d("RSS Item", "Title: " + title + "\nLink: " + link + "\nDescription: " + description + "\nDate:" + date);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            System.out.println("Fetch is done, size of list is " + RSSItem.items.size() + " updating news data");
+
+            updateListWithRSSFeed(RSSItem.items);
+        }
+    }
+
 }
