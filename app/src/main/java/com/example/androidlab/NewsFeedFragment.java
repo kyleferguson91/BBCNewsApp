@@ -138,18 +138,25 @@ public class NewsFeedFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleurl));
                 startActivity(intent);
             });
+            TextView favlink = view.findViewById(R.id.favslinkexpanded);
+            favlink.setOnClickListener(v -> {
+
+                System.out.println("fav link clicked");
+            });
 
 
-            if (date.getVisibility() == View.GONE && desc.getVisibility() == View.GONE && link.getVisibility() == View.GONE) {
+            if (date.getVisibility() == View.GONE && desc.getVisibility() == View.GONE && link.getVisibility() == View.GONE && favlink.getVisibility() == View.GONE) {
                 // Show the hidden view (expand the item)
                 date.setVisibility(View.VISIBLE);
                 desc.setVisibility(View.VISIBLE);
                 link.setVisibility(View.VISIBLE);
+                favlink.setVisibility(View.VISIBLE);
             } else {
                 // Hide the view (collapse the item)
                 date.setVisibility(View.GONE);
                 desc.setVisibility(View.GONE);
                 link.setVisibility(View.GONE);
+                favlink.setVisibility(View.GONE);
             }
 
         });

@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,12 +56,72 @@ public class settings extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        Button username = rootView.findViewById(R.id.setchangeusername);
+        Button help = rootView.findViewById(R.id.helpbuttonsettingspage);
+        TextView helptext = rootView.findViewById(R.id.helptextsettingspage);
+        Button usernamechangesubmit = rootView.findViewById(R.id.submitusernamechangebutton);
+        EditText usernamestext = rootView.findViewById(R.id.usernametextsettingspage);
+
+        username.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("clicked username settings page");
+                //show the username settings pane
+                usernamechangesubmit.setVisibility(rootView.VISIBLE);
+                usernamestext.setVisibility(View.VISIBLE);
+                helptext.setVisibility(View.GONE);
+            }
+        });
+        Shared shared = new Shared(getContext());
+        usernamechangesubmit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("clicked username submit button");
+                //if user object exists update it, if not create one.
+
+                usernamechangesubmit.setVisibility(rootView.GONE);
+                usernamestext.setVisibility(View.GONE);
+
+
+                shared.storeData(usernamestext.getText().toString());
+
+                System.out.println(shared.retrieveUsername());
+
+            }
+        });
+
+        help.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("clicked help settings page");
+
+                if (helptext.getVisibility() == View.VISIBLE)
+                {
+                    helptext.setVisibility(View.GONE);
+                }
+                else
+                {
+                    helptext.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+
+        return rootView;
     }
 }

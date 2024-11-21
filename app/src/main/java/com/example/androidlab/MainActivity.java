@@ -16,7 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.content.Context;
+import android.content.SharedPreferences;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
@@ -62,10 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        System.out.println("Initialize shared prefs within main oncreate");
+
 
 
 
         }
+
+
 
     /**
      * Creates the options menu for the activity and inflates the menu layout.
