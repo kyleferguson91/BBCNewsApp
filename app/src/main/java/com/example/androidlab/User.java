@@ -5,10 +5,16 @@ import java.util.List;
 
 public class User {
 
-    private List<RSSItem> favorites = new ArrayList<>();
-
+    public static List<RSSItem> favorites = new ArrayList<>();
+    public static List<String> favTitles = new ArrayList<>();
+    public static List<String> favLinks = new ArrayList<>();
+    private  List<User> users = new ArrayList<>();
     private String username;
 
+    public User(String username)
+    {
+        this.username = username;
+    }
 
     public String getUsername() {
         return username;

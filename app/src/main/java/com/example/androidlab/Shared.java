@@ -28,6 +28,42 @@ public class Shared {
         editor.apply();
     }
 
+
+    public void storeFavTitles(String favs) {
+        // Storing data in SharedPreferences
+
+
+        editor.putString("favtitles", favs);
+
+        editor.apply();
+    }
+
+
+    public String getfavTitles() {
+        // Storing data in SharedPreferences
+
+
+       return sharedPreferences.getString("favtitles", "You do not have any favorites stored!");
+    }
+
+    public void storeFavlinks(String favs) {
+        // Storing data in SharedPreferences
+
+
+        editor.putString("favlinks", favs);
+
+        editor.apply();
+    }
+
+
+    public String getFavLinks() {
+        // Storing data in SharedPreferences
+
+
+        return sharedPreferences.getString("favlinks", "You do not have any favorites stored!");
+    }
+
+
     public String retrieveUsername() {
         String username = sharedPreferences.getString("username", "You do not have a Username Set");
         //System.out.println(username);

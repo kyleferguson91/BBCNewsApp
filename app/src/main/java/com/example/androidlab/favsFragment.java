@@ -1,13 +1,22 @@
 package com.example.androidlab;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +72,56 @@ public class favsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_favs, container, false);
+
+        ListView favsListView = rootView.findViewById(R.id.favslist);
+
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_favorites, R.id.itemTitle, User.favTitles);
 
 
+        favsListView.setAdapter(adapter);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favs, container, false);
+        favsListView.setOnItemClickListener((parent, view, position, id) -> {
+
+            System.out.println("clicked fav list @ position " + position);
+
+            TextView linktext = view.findViewById(R.id.itemlink);
+            Button removefav = view.findViewById(R.id.removefavorite);
+
+
+            String text = "Click <a href="+User.favLinks.get(position)+">here</a> to visit the website.";
+            linktext.setText(Html.fromHtml(text));
+            linktext.setOnClickListener(v -> {
+                String articleurl = User.favLinks.get(position);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleurl));
+                startActivity(intent);
+            });
+
+            if (removefav.getVisibility() == View.GONE || linktext.getVisibility() == View.GONE)
+            {
+                removefav.setVisibility(View.VISIBLE);
+                linktext.setVisibility(View.VISIBLE);
+            }
+            removefav.setOnClickListener(v -> {
+                // Code to execute when the button is clicked
+                System.out.println("remove fav clicked " + position);
+                User.favTitles.remove(position);
+                User.favLinks.remove(position);
+
+
+                Shared shared = new Shared(getContext());
+                shared.storeFavTitles(User.favTitles.toString());
+                shared.storeFavlinks(User.favLinks.toString());
+
+                System.out.println("shared pref fav titles " + shared.getfavTitles() + " links " + shared.getFavLinks());
+
+
+                adapter.notifyDataSetChanged();
+            });
+
+        });
+
+
+        return rootView;
     }
 }

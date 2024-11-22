@@ -90,7 +90,12 @@ public class settings extends Fragment {
             @Override
             public void onClick(View view) {
                 System.out.println("clicked username submit button");
-                //if user object exists update it, if not create one.
+              //Create new user object!
+                User user = new User(usernamestext.getText().toString());
+
+
+
+
 
                 usernamechangesubmit.setVisibility(rootView.GONE);
                 usernamestext.setVisibility(View.GONE);

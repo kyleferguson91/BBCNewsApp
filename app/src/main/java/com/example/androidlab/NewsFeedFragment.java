@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.jsoup.Jsoup;
@@ -32,7 +34,10 @@ import java.util.List;
  * Use the {@link NewsFeedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class NewsFeedFragment extends Fragment {
+
+    ProgressBar progressBar = null;
 
     // ListView and Adapter
     private ListView listView;
@@ -94,9 +99,22 @@ public class NewsFeedFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_news_feed, container, false);
 
+
+
+         Shared sharedinit = new Shared(getContext());
+       // shared.storeFavTitles(User.favTitles.toString());
+      //  shared.storeFavlinks(User.favLinks.toString());
+
+        System.out.println("initial shared pref fav titles " + sharedinit.getfavTitles() + " links " + sharedinit.getFavLinks());
+            User.favTitles.add(sharedinit.getfavTitles());
+            User.favLinks.add(sharedinit.getFavLinks());
+
         // Find the ListView in the layout
         listView = rootView.findViewById(R.id.listView);
 
+
+        progressBar = rootView.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         // we will parse xml data here to add it to the list!
         String url = "http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml";
@@ -140,8 +158,30 @@ public class NewsFeedFragment extends Fragment {
             });
             TextView favlink = view.findViewById(R.id.favslinkexpanded);
             favlink.setOnClickListener(v -> {
+                //we have a news item here that we can add to favorites
 
-                System.out.println("fav link clicked");
+                // add if these do not exist in both
+
+
+                   if (!User.favTitles.contains(RSSItem.items.get(position).getTitle()) && !User.favLinks.contains(RSSItem.items.get(position).getLink()))
+                   {
+                       User.favTitles.add(RSSItem.items.get(position).getTitle());
+                       User.favLinks.add(RSSItem.items.get(position).getLink());
+
+
+                       Shared shared = new Shared(getContext());
+                       shared.storeFavTitles(User.favTitles.toString());
+                       shared.storeFavlinks(User.favLinks.toString());
+
+                       System.out.println("shared pref fav titles " + shared.getfavTitles() + " links " + shared.getFavLinks());
+
+                       Toast.makeText(getActivity(), "Favorite Added!", Toast.LENGTH_LONG).show();
+                   }
+                 else
+                   {
+                       Toast.makeText(getActivity(), "Favorite Exists!", Toast.LENGTH_LONG).show();
+                   }
+                System.out.println("fav link clicked" );
             });
 
 
@@ -184,7 +224,6 @@ public class NewsFeedFragment extends Fragment {
 
 
     public class FetchRSSFeedTask extends AsyncTask<String, Void, String> {
-
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -215,9 +254,14 @@ public class NewsFeedFragment extends Fragment {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
         protected void onPostExecute(String result) {
             System.out.println("Fetch is done, size of list is " + RSSItem.items.size() + " updating news data");
-
+            progressBar.setVisibility(View.GONE);
             updateListWithRSSFeed(RSSItem.items);
         }
     }

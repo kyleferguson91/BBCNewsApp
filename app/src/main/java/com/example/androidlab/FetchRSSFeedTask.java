@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,6 +49,13 @@ public class FetchRSSFeedTask extends AsyncTask<String, Void, String> {
         }
         return null;
     }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+    }
+
 
     @Override
     protected void onPostExecute(String result) {
