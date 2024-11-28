@@ -178,11 +178,11 @@ if (titles.length >= 1 )
 
 
             TextView date = view.findViewById(R.id.dateexpanded);
-            date.setText("Date: "  + RSSItem.items.get(position).getDate());
+            date.setText(getString(R.string.date)+": "  + RSSItem.items.get(position).getDate());
             TextView desc = view.findViewById(R.id.descriptionexpanded);
             desc.setText(RSSItem.items.get(position).getDescription());
             TextView link = view.findViewById(R.id.linkexpanded);
-            String text = "Click <a href="+RSSItem.items.get(position).getLink()+">here</a> to visit the website.";
+            String text = getString(R.string.click) + " " +"<a href="+RSSItem.items.get(position).getLink()+">" + " " + getString(R.string.here)+ "</a>" + getString(R.string.tovisitthewebsite);
             link.setText(Html.fromHtml(text));
             link.setOnClickListener(v -> {
                 // Manually open the link
@@ -209,11 +209,11 @@ if (titles.length >= 1 )
 
                        System.out.println("shared pref fav titles " + shared.getfavTitles() + " links " + shared.getFavLinks());
 
-                       Toast.makeText(getActivity(), "Favorite Added!", Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(), getString(R.string.favadded), Toast.LENGTH_LONG).show();
                    }
                  else
                    {
-                       Toast.makeText(getActivity(), "Favorite Exists!", Toast.LENGTH_LONG).show();
+                       Toast.makeText(getActivity(), getString(R.string.favexists), Toast.LENGTH_LONG).show();
                    }
                 System.out.println("fav link clicked" );
             });

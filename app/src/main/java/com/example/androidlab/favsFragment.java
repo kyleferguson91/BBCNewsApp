@@ -89,7 +89,7 @@ public class favsFragment extends Fragment {
             Button removefav = view.findViewById(R.id.removefavorite);
 
 
-            String text = "Click <a href="+User.favLinks.get(position)+">here</a> to visit the website.";
+            String text = getString(R.string.click)+" " + "<a href="+User.favLinks.get(position)+">"+getString(R.string.here)+" "+"</a>" + getString(R.string.tovisitthewebsite);
             linktext.setText(Html.fromHtml(text));
             linktext.setOnClickListener(v -> {
                 String articleurl = User.favLinks.get(position);

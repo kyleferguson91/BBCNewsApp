@@ -19,4 +19,33 @@
     <string name="settings">Paramètres</string>
     <string name="profile">Profil</string>
     <string name="favs">Favoris</string>
+    <string name="newsarticlelinktext">>ici</string>
+    <string name="click">"Cliquez "</string>
+    <string name="here">ici</string>
+    <string name="tovisitthewebsite">"pour visiter le site Internet. "</string>
+    <string name="removefav">Supprimer le favori</string>
+    <string name="link">Lien</string>
+    <string name="title">Titre</string>
+    <string name="date">la date</string>
+    <string name="favadded">Favoris ajouté</string>
+    <string name="favexists">"Le favori existe "</string>
+    <string name="Description">la description</string>
+    <string name="clicktoaddtofav">Cliquez pour ajouter aux favoris !</string>
+    <string name="UserSettings">Paramètres utilisateur</string>
+    <string name="SetChangeUsername">Définir/Modifier le nom d\'utilisateur</string>
+    <string name="Help">Aide</string>
+    <string name="setchangeusernamehelptext">"Utilisez l'option Définir/Modifier le nom d'utilisateur pour modifier votre nom d'utilisateur actuel, ou créez-en un ! "</string>
+    <string name="yourdesiredusername">"Votre nom d'utilisateur souhaité "</string>
+    <string name="submitchange">"Soumettre le changement "</string>
+    <string name="userfavs">Favoris de l\'utilisateur</string>
+    <string name="Ok">D\'accord</string>
+    <string name="Cancel">Annuler</string>
+    <string name="Settings">Paramètres</string>
+    <string name="Profile">Profil</string>
+    <string name="settingshelptext">"Ceci est le panneau des paramètres, vous pouvez modifier votre nom d'utilisateur ici. "</string>
+    <string name="newsfeedhelptext">Voici le fil d\'actualité, faites défiler pour voir du contenu, cliquez sur les articles pour plus de détails</string>
+    <string name="profilehelptext">"Ceci est votre profil, pour l'instant vous pouvez voir votre nom d'utilisateur "</string>
+    <string name="favhelptext">"Ce sont les favoris, consultez vos favoris "</string>
+
+
 </resources>

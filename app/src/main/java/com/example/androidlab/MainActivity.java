@@ -106,34 +106,34 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the action bar title to the selected menu item's title
 
-        if (!itemTitle.equals("Help".trim())) {
+        if (!itemTitle.equals(getString(R.string.Help).trim())) {
            //do not change the title to help, leave at initial page
             getSupportActionBar().setTitle(" " + itemTitle);
         }
 
      //
         // Load the corresponding fragment based on the selected menu item
-        if(itemTitle.equals("News Feed".trim()))
+        if(itemTitle.equals(getString(R.string.newsfeed).trim()))
         {
             System.out.println("load news feed frag");
             loadFragment(new NewsFeedFragment());
         }
-        if(itemTitle.equals("Settings".trim()))
+        if(itemTitle.equals(getString(R.string.Settings).trim()))
         {
             System.out.println("load settings frag");
             loadFragment(new settings());
         }
-        if(itemTitle.equals("Profile".trim()))
+        if(itemTitle.equals(getString(R.string.Profile).trim()))
         {
             System.out.println("load profile frag");
             loadFragment(new profileFragment());
         }
-        if(itemTitle.equals("Favorites".trim()))
+        if(itemTitle.equals(getString(R.string.favs).trim()))
         {
             System.out.println("load favs frag");
             loadFragment(new favsFragment());
         }
-        if(itemTitle.equals("Help".trim()))
+        if(itemTitle.equals(getString(R.string.Help).trim()))
         {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -148,36 +148,36 @@ public class MainActivity extends AppCompatActivity {
 
             if (fragment != null && fragment instanceof settings) {
                 // The SettingsFragment is currently loaded
-                           builder.setMessage("This is the settings panel, you can change your username in here.");
+                           builder.setMessage(getString(R.string.settingshelptext));
                    
                 System.out.println("SettingsFragment is loaded");
             }
             if ((fragment != null) && fragment instanceof NewsFeedFragment) {
 
             System.out.println("newsfeed is loaded");
-                builder.setMessage("This is the newsfeed, scroll around for some content, click the articles for more details");
+                builder.setMessage(getString(R.string.newsfeedhelptext));
         }
             if ((fragment != null) && fragment instanceof profileFragment) {
 
-                builder.setMessage("This is your profile, for now you can view your username");
+                builder.setMessage(getString(R.string.profilehelptext));
                 System.out.println("profile is loaded");
             }
 
             if ((fragment != null) && fragment instanceof favsFragment) {
 
                 System.out.println("favsfrag is loaded");
-                builder.setMessage("This is the favorites, view your favorites");
+                builder.setMessage(getString(R.string.favhelptext));
             }
 
 
-            builder.setTitle("Help!") // Set the title
+            builder.setTitle(getString(R.string.Help)) // Set the title
                     .setCancelable(false); // Disable closing dialog by tapping outside
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.Ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // ok button
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // cancel button
                         }

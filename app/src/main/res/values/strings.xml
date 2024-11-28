@@ -24,4 +24,31 @@
     <string name="profile">Profile</string>
     <string name="favs">Favorites</string>
 
+    <string name="click">Click</string>
+    <string name="here">here</string>
+    <string name="tovisitthewebsite">to visit the website.</string>
+    <string name="removefav">Remove Favorite</string>
+    <string name="link">Link</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="favadded">Favorite Added</string>
+    <string name="favexists">Favorite Exists</string>
+    <string name="Description">Description</string>
+    <string name="clicktoaddtofav">Click to add to favorites!</string>
+    <string name="UserSettings">User Settings</string>
+    <string name="SetChangeUsername">Set/Change Username</string>
+    <string name="Help">Help</string>
+    <string name="setchangeusernamehelptext">Use the set/change username to change your current username, or set one up!</string>
+    <string name="yourdesiredusername">Your desired username</string>
+    <string name="submitchange">Submit Change</string>
+    <string name="userfavs">User Favorites</string>
+    <string name="Ok">Ok</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Settings">Settings</string>
+    <string name="Profile">Profile</string>
+    <string name="settingshelptext">This is the settings panel, you can change your username in here.</string>
+    <string name="newsfeedhelptext">This is the newsfeed, scroll around for some content, click the articles for more details</string>
+    <string name="profilehelptext">This is your profile, for now you can view your username</string>
+    <string name="favhelptext">This is the favorites, view your favorites</string>
+
 </resources>
