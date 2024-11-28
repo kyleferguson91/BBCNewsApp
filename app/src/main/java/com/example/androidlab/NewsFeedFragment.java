@@ -106,8 +106,42 @@ public class NewsFeedFragment extends Fragment {
       //  shared.storeFavlinks(User.favLinks.toString());
 
         System.out.println("initial shared pref fav titles " + sharedinit.getfavTitles() + " links " + sharedinit.getFavLinks());
-            User.favTitles.add(sharedinit.getfavTitles());
-            User.favLinks.add(sharedinit.getFavLinks());
+String[] titles = sharedinit.getfavTitles().split(",");
+String[] links  =  sharedinit.getFavLinks().split(",");
+
+if (titles.length >= 1 )
+{
+    for (int i =0; i<titles.length; i++)
+    {
+        if (!titles[i].equals(" ") && !titles[i].equals("") && !titles[i].equals("[") && !titles[i].equals("]") )
+        {
+            System.out.println("adding fav titles from shared " + titles[i]);
+            System.out.println("adding fav links from shared " + links[i]);
+
+            // we only want to add it if it does not exist in the list already..
+            String title = titles[i].replaceAll("[\\[\\]]", "");
+            String link = links[i].replaceAll("[\\[\\]]", "").trim();
+            if (!User.favTitles.contains(title) || !User.favLinks.contains(link))
+            {
+                if (!title.equals("") || !title.equals(null) || !title.equals(" ")) {
+                    {
+                        User.favLinks.add(link);
+                        User.favTitles.add(title);
+                    }
+                }
+            }
+
+
+
+            //System.out.println("TITTLE IS: " + titles[i].replaceAll("[\\[\\]]", ""));
+        }
+
+
+    }
+}
+
+        //User.favTitles.add();
+           // User.favLinks.add(sharedinit.getFavLinks());
 
         // Find the ListView in the layout
         listView = rootView.findViewById(R.id.listView);
@@ -210,11 +244,12 @@ public class NewsFeedFragment extends Fragment {
 
 
         for (RSSItem item : newsdata) {
-            System.out.println("Printing data after fetch");
+          //  System.out.println("Printing data after fetch");
             newsData.add(item.getTitle());
-            System.out.println(item.getTitle());
+           // System.out.println(item.getTitle());
         }
-        System.out.println("adapter " + adapter);
+     //
+        //   System.out.println("adapter " + adapter);
 
         // Notify the adapter that the data has changed
         if (adapter != null) {

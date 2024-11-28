@@ -93,15 +93,24 @@ public class favsFragment extends Fragment {
             linktext.setText(Html.fromHtml(text));
             linktext.setOnClickListener(v -> {
                 String articleurl = User.favLinks.get(position);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleurl));
-                startActivity(intent);
+                if (articleurl != "" && articleurl != null)
+                {
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(articleurl.trim()));
+                    startActivity(intent);
+                }
             });
 
-            if (removefav.getVisibility() == View.GONE || linktext.getVisibility() == View.GONE)
-            {
-                removefav.setVisibility(View.VISIBLE);
+            if (linktext.getVisibility() == View.GONE) {
                 linktext.setVisibility(View.VISIBLE);
+                removefav.setVisibility(View.VISIBLE);
+            } else {
+                linktext.setVisibility(View.GONE);
+                removefav.setVisibility(View.GONE);
             }
+
+
+
             removefav.setOnClickListener(v -> {
                 // Code to execute when the button is clicked
                 System.out.println("remove fav clicked " + position);
@@ -113,12 +122,18 @@ public class favsFragment extends Fragment {
                 shared.storeFavTitles(User.favTitles.toString());
                 shared.storeFavlinks(User.favLinks.toString());
 
+
+
                 System.out.println("shared pref fav titles " + shared.getfavTitles() + " links " + shared.getFavLinks());
 
 
                 adapter.notifyDataSetChanged();
             });
 
+        });
+        favsListView.setOnTouchListener((v, event) -> {
+
+            return false;
         });
 
 

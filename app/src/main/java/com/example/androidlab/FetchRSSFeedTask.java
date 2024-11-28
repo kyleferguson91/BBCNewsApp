@@ -1,3 +1,5 @@
+
+/*
 package com.example.androidlab;
 
 import android.os.AsyncTask;
@@ -64,3 +66,4 @@ public class FetchRSSFeedTask extends AsyncTask<String, Void, String> {
     news.updateListWithRSSFeed(RSSItem.items);
     }
 }
+*/
