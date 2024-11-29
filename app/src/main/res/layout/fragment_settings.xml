@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".settings">
 
-
+    <!-- TextView to display the title for User Settings -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="382dp"
@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Button to trigger username change -->
     <Button
         android:id="@+id/setchangeusername"
         android:layout_width="147dp"
@@ -26,6 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <!-- Button to open help related to user settings -->
     <Button
         android:id="@+id/helpbuttonsettingspage"
         android:layout_width="143dp"
@@ -35,6 +37,7 @@
         app:layout_constraintStart_toEndOf="@+id/setchangeusername"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <!-- TextView to display help text for username change, initially hidden -->
     <TextView
         android:id="@+id/helptextsettingspage"
         android:layout_width="378dp"
@@ -45,6 +48,7 @@
         app:layout_constraintTop_toBottomOf="@+id/usernametextsettingspage"
         android:visibility="gone"/>
 
+    <!-- EditText field for entering a new username, initially hidden -->
     <EditText
         android:id="@+id/usernametextsettingspage"
         android:layout_width="220dp"
@@ -57,6 +61,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setchangeusername" />
 
+    <!-- Button to submit the username change, initially hidden -->
     <Button
         android:id="@+id/submitusernamechangebutton"
         android:layout_width="wrap_content"

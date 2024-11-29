@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".NewsFeedFragment">
 
-
+    <!-- ProgressBar, initially hidden, used for loading indication, centered within the parent container -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+    <!-- ListView to display the list of news feed items, takes up full screen -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

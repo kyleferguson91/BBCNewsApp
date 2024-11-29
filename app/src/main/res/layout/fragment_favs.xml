@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".settings">
 
-
+    <!-- TextView to display the title or label for user favorites, constrained at the top of the layout -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="382dp"
@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ListView to display the list of favorites, constrained below the TextView -->
     <ListView
         android:id="@+id/favslist"
         android:layout_width="382dp"
@@ -24,6 +25,5 @@
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

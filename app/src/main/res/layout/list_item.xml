@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
+    <!-- TextView displaying the title, positioned at the top of the layout -->
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="match_parent"
@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView displaying the description, initially hidden -->
     <TextView
         android:id="@+id/descriptionexpanded"
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
 
+    <!-- TextView displaying the date, initially hidden -->
     <TextView
         android:id="@+id/dateexpanded"
         android:layout_width="match_parent"
@@ -40,17 +42,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView displaying a link, initially hidden -->
     <TextView
         android:id="@+id/linkexpanded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
         android:text="@string/link"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
+
+    <!-- TextView prompting to add to favorites, initially hidden -->
     <TextView
         android:id="@+id/favslinkexpanded"
         android:layout_width="match_parent"
@@ -61,6 +65,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:visibility="gone"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

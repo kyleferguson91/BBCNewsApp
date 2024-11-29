@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
+    <!-- TextView for the item title, placed at the top of the layout -->
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="match_parent"
@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- TextView for the item link, positioned below the item title -->
     <TextView
         android:id="@+id/itemlink"
         android:layout_width="match_parent"
@@ -29,6 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/itemTitle"
         android:visibility="gone"/>
 
+    <!-- Button to remove the item from favorites, placed below the link TextView -->
     <Button
         android:id="@+id/removefavorite"
         android:layout_width="wrap_content"
@@ -37,6 +39,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemlink"
         android:visibility="gone"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass that displays a user's profile.
  * Use the {@link profileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -25,6 +25,9 @@ public class profileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Required empty public constructor.
+     */
     public profileFragment() {
         // Required empty public constructor
     }
@@ -50,6 +53,7 @@ public class profileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Check if there are arguments passed to the fragment
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -60,17 +64,20 @@ public class profileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // inflate the layout for this fragment
+        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        // Retrieve the TextView where the username will be displayed
         TextView usernametext = rootView.findViewById(R.id.usernametextprofilepage);
+
+        // Create an instance of Shared class to retrieve stored username
         String username;
         Shared shared = new Shared(getContext());
+        // Retrieve the stored username from SharedPreferences
         username = shared.retrieveUsername();
 
+        // Set the retrieved username into the TextView
         usernametext.setText(getString(R.string.yourusernameis) + username);
-
-
 
         return rootView;
     }
