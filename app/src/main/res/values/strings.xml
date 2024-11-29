@@ -51,5 +51,7 @@
     <string name="profilehelptext">This is your profile, for now you can view your username</string>
     <string name="favhelptext">This is the favorites, view your favorites</string>
     <string name="yourusernameis">Your username is:</string>
+    <string name="snackbartext">Favorite Removed</string>
+    <string name="snackdismiss">Dismiss</string>
 
 </resources>

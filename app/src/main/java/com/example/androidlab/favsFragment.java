@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -121,6 +123,15 @@ public class favsFragment extends Fragment {
                 Shared shared = new Shared(getContext());
                 shared.storeFavTitles(User.favTitles.toString());
                 shared.storeFavlinks(User.favLinks.toString());
+                Snackbar.make(rootView, getString(R.string.snackbartext), Snackbar.LENGTH_LONG)
+                        .setAction(getString(R.string.snackdismiss), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Action when Snackbar dismiss button is clicked
+
+                            }
+                        })
+                        .show();
 
 
 

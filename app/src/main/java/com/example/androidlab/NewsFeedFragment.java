@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -108,14 +110,15 @@ public class NewsFeedFragment extends Fragment {
         System.out.println("initial shared pref fav titles " + sharedinit.getfavTitles() + " links " + sharedinit.getFavLinks());
 String[] titles = sharedinit.getfavTitles().split(",");
 String[] links  =  sharedinit.getFavLinks().split(",");
-
-if (titles.length >= 1 )
+System.out.println("before titles loop" + titles.length + links.length + " " + titles[0] + links[0]);
+if (titles.length >= 1 && !titles[0].equals("[]") )
 {
+    System.out.println("entering adding favs loop");
     for (int i =0; i<titles.length; i++)
     {
         if (!titles[i].equals(" ") && !titles[i].equals("") && !titles[i].equals("[") && !titles[i].equals("]") )
         {
-            System.out.println("adding fav titles from shared " + titles[i]);
+            System.out.println("adding fav titles from shared " + titles.length);
             System.out.println("adding fav links from shared " + links[i]);
 
             // we only want to add it if it does not exist in the list already..
@@ -125,8 +128,13 @@ if (titles.length >= 1 )
             {
                 if (!title.equals("") || !title.equals(null) || !title.equals(" ")) {
                     {
-                        User.favLinks.add(link);
-                        User.favTitles.add(title);
+
+                        if (titles.length >= 1)
+                        {
+                            User.favLinks.add(link);
+                            User.favTitles.add(title);
+                        }
+
                     }
                 }
             }

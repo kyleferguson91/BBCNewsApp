@@ -47,6 +47,8 @@
     <string name="newsfeedhelptext">Voici le fil d\'actualité, faites défiler pour voir du contenu, cliquez sur les articles pour plus de détails</string>
     <string name="profilehelptext">"Ceci est votre profil, pour l'instant vous pouvez voir votre nom d'utilisateur "</string>
     <string name="favhelptext">"Ce sont les favoris, consultez vos favoris "</string>
+    <string name="snackbartext">Favoris supprimés</string>
+    <string name="snackdismiss">Rejeter</string>
 
 
 </resources>
