@@ -50,5 +50,6 @@
     <string name="newsfeedhelptext">This is the newsfeed, scroll around for some content, click the articles for more details</string>
     <string name="profilehelptext">This is your profile, for now you can view your username</string>
     <string name="favhelptext">This is the favorites, view your favorites</string>
+    <string name="yourusernameis">Your username is:</string>
 
 </resources>

@@ -68,7 +68,7 @@ public class profileFragment extends Fragment {
         Shared shared = new Shared(getContext());
         username = shared.retrieveUsername();
 
-        usernametext.setText("Your username is: " + username);
+        usernametext.setText(getString(R.string.yourusernameis) + username);
 
 
 

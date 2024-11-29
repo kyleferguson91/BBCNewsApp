@@ -12,7 +12,7 @@
         android:layout_width="382dp"
         android:layout_height="70dp"
         android:text="@string/userfavs"
-        android:textSize="40dp"
+        android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
